@@ -35,14 +35,24 @@ class stack{
             cout<<c<<" ";
         }
     }
+    void display_and_pop(){
+        for(int c : stvec){
+            cout<<c<<" ";
+            pop();
+            
+        }
+    }
+    void seek(){
+        
+    }
 };
 int main(){
 stack stack1(3);
 stack1.push(23);
 stack1.push(24);
 stack1.push(25);
-stack1.push(26);
-stack1.push(27);
+// stack1.push(26);
+// stack1.push(27);
 
 stack1.display();
 cout<<endl;
