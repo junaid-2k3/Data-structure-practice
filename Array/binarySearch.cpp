@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <vector>
 using namespace std;
  // binary search algorithm iterative code 
@@ -40,8 +41,10 @@ int binary_search_recursive(vector<int> n,int tar, int start ,int end){
 }
 int main(){
     vector<int> num={1,2,3,4,5,6,7,8,9};
-    int start=0;
-   int end=num.size()-1;
-    cout<<binary_search_recursive(num,30,start,end);
+//     int start=0;
+//    int end=num.size()-1;
+//     cout<<binary_search_recursive(num,30,start,end);
+//////binary search using stl <algorithm>
+cout<<binary_search(num.begin(),num.end(),3);
    
 }
