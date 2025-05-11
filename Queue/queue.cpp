@@ -1,8 +1,8 @@
 #include <iostream> // queue follows last in last out . LILO
 using namespace std;// or First in first out
 
-struct Node{
-    Node* next;
+struct Node{ // node for queue element 
+    Node* next;    // pointer to point to  the next node
     int data;
     
     Node(int val):data(val),next(nullptr){}
@@ -10,8 +10,8 @@ struct Node{
 
 class queue{
     public:
-    Node* front;
-    Node* rear;
+    Node* front;  // node element 
+    Node* rear;  // node element inserted at rear
 
     queue():front(nullptr),rear(nullptr){}
  

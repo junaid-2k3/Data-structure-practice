@@ -43,6 +43,7 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "list": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "queue": "cpp"
     }
 }

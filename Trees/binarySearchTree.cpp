@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 using namespace std;
 
 // Node structure
@@ -17,6 +18,7 @@ struct Node {
 class BST {
 private:
     Node* root;
+    int kthSmallest;
 
     // Private helper functions
     Node* insert(Node* root, int val) {
@@ -97,14 +99,49 @@ private:
         postorder(root->right);
         cout << root->data << " ";
     }
+    void levelorder(Node* root){
+        if(root==nullptr){
+            return;
+        }
+        queue<Node*> q;
+        q.push(root);
+        while(!q.empty()){
+            Node* current= q.front();
+            cout<<current->data<<" ";
+            if(current->left !=nullptr){
+                q.push(current->left);
+            }
+            if(current->right !=nullptr){
+                q.push(current->right);
+            }
+            q.pop();
+        }
+        
 
     int countNodes(Node* root) {
         if (root == nullptr) return 0;
         return countNodes(root->left) + countNodes(root->right) + 1;
     }
+    // alternative code for counting nodes 
+     /*int count( Node* root) {
+     if(root== nullptr)
+     {return 0;}
+     int leftcount=count(root->left);
+     int rightcount=count(root->right);
+     return (leftcount + rightcount)+1;
+    
+     }*/
+
+     int sum(Node* root) {
+     if(root== nullptr)
+     {return 0;}
+     int leftsum=sum(root->left);
+     int rightsum=sum(root->right);
+     return  leftsum + rightsum + root->data;}
+    
 
     int height(Node* root) {
-        if (root == nullptr) return -1;
+        if (root == nullptr) return 0;   // -1
         int leftHeight = height(root->left);
         int rightHeight = height(root->right);
         return max(leftHeight, rightHeight) + 1;
@@ -176,6 +213,11 @@ public:
         cout << endl;
     }
 
+    void Levelorder(){
+        levelorder(root);
+        cout<<endl;
+    }
+
     int countNodes() {
         return countNodes(root);
     }
@@ -196,13 +238,13 @@ public:
         root = clear(root);
     }
     
-    void levelOrderTraversal() {
-        int h = height();
-        for (int i = 0; i <= h; i++) {
-            printLevel(root, i);
-            cout << endl;
-        }
-    }
+    // void levelOrderTraversal() {
+    //     int h = height();
+    //     for (int i = 0; i <= h; i++) {
+    //         printLevel(root, i);
+    //         cout << endl;
+    //     }
+    // }
     
     // Find the minimum value in the tree
     int findMin() {
@@ -220,6 +262,24 @@ public:
         }
         return current->data;
     }
+
+    void kth_smallestHelper(Node* root,int& k){
+        if(root==nullptr){
+            return;
+        }
+        kth_smallestHelper(root->left,k);
+        if(--k == 0) kthSmallest=root->data;
+        kth_smallestHelper(root->right,k);
+    }
+    int kth_smallestelement(){
+        int k;
+        cout<<"value of k :"<<endl;
+        cin>>k;
+        kth_smallestHelper(root,k);
+        return kthSmallest;
+    }
+    
+}
 };
 
 int main() {
@@ -244,36 +304,41 @@ int main() {
     tree.postorder();  // Should print: 20 40 30 60 80 70 50
 
     cout << "Level Order Traversal: " << endl;
-    tree.levelOrderTraversal();
-
-    cout << "Number of nodes: " << tree.countNodes() << endl;  // Should print: 7
-    cout << "Height of tree: " << tree.height() << endl;  // Should print: 2
-    cout << "Tree is balanced: " << (tree.isBalanced() ? "Yes" : "No") << endl;  // Should print: Yes
+    tree.Levelorder();
+    cout<<"****************************"<<endl;
     
-    cout << "Min value: " << tree.findMin() << endl;  // Should print: 20
-    cout << "Max value: " << tree.findMax() << endl;  // Should print: 80
+    cout<<" kth smallest element in bst"<<endl;
 
-    cout << "Search for 40: " << (tree.search(40) ? "Found" : "Not Found") << endl;  // Should print: Found
-    cout << "Search for 55: " << (tree.search(55) ? "Found" : "Not Found") << endl;  // Should print: Not Found
+    tree.kthSmallest();
 
-    cout << "Removing 20..." << endl;
-    tree.remove(20);
-    cout << "Inorder after removal: ";
-    tree.inorder();  // Should print: 30 40 50 60 70 80
+    // cout << "Number of nodes: " << tree.countNodes() << endl;  // Should print: 7
+    // cout << "Height of tree: " << tree.height() << endl;  // Should print: 2
+    // cout << "Tree is balanced: " << (tree.isBalanced() ? "Yes" : "No") << endl;  // Should print: Yes
+    
+    // cout << "Min value: " << tree.findMin() << endl;  // Should print: 20
+    // cout << "Max value: " << tree.findMax() << endl;  // Should print: 80
 
-    cout << "Removing 30..." << endl;
-    tree.remove(30);
-    cout << "Inorder after removal: ";
-    tree.inorder();  // Should print: 40 50 60 70 80
+    // cout << "Search for 40: " << (tree.search(40) ? "Found" : "Not Found") << endl;  // Should print: Found
+    // cout << "Search for 55: " << (tree.search(55) ? "Found" : "Not Found") << endl;  // Should print: Not Found
 
-    cout << "Removing 50 (root)..." << endl;
-    tree.remove(50);
-    cout << "Inorder after removal: ";
-    tree.inorder();  // Should print: 40 60 70 80
+    // cout << "Removing 20..." << endl;
+    // tree.remove(20);
+    // cout << "Inorder after removal: ";
+    // tree.inorder();  // Should print: 30 40 50 60 70 80
 
-    cout << "Clearing the tree..." << endl;
-    tree.clear();
-    cout << "Tree is empty: " << (tree.isEmpty() ? "Yes" : "No") << endl;  // Should print: Yes
+    // cout << "Removing 30..." << endl;
+    // tree.remove(30);
+    // cout << "Inorder after removal: ";
+    // tree.inorder();  // Should print: 40 50 60 70 80
+
+    // cout << "Removing 50 (root)..." << endl;
+    // tree.remove(50);
+    // cout << "Inorder after removal: ";
+    // tree.inorder();  // Should print: 40 60 70 80
+
+    // cout << "Clearing the tree..." << endl;
+    // tree.clear();
+    // cout << "Tree is empty: " << (tree.isEmpty() ? "Yes" : "No") << endl;  // Should print: Yes
 
     return 0;
 }
