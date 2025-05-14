@@ -17,19 +17,19 @@ class queue{
  
     void enqueue(int val){
         Node* newNode=new Node(val);
-        if(!front && !rear){  // front == nullptr and rear== nullptr 
+        if(!front && !rear){  // front == nullptr and rear== nullptr , which mean queue is empty 
             front=newNode;
             rear=newNode;
             cout<<val<<" enqueued"<<endl;
-        }else{
-            rear->next=newNode;
+        }else{// queue is not empty then this condition 
+            rear->next=newNode; 
             rear=newNode;
             cout<<val<<" enqueued"<<endl;
         }
     }
 
     void dequeue(){
-        if(front==nullptr || rear==nullptr){
+        if(front==nullptr || rear==nullptr){ // if queue is empty , so nothing ,return 
             cout<<"the queue is empty "<<endl;
             return;
         }
