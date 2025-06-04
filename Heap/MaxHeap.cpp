@@ -72,9 +72,10 @@ private:
         return root;
     }
     void buildMaxHeap(){
-        for (int i=maxHeapSize/2-1; i>=0; i--)
+        for (int i=maxHeapSize/2-1; i>=0; i--)  // start from the last parent node and go all the way up to the root 
             heapifyDown(i);
     }
+
     int findValue(int key){
         if (heapIsEmpty()) return -1;
         for (int i=0; i<maxHeapSize; i++)
@@ -174,7 +175,8 @@ public:
             cout<<"\n value not found ";
     }
     void heapSort(){
-        buildMaxHeap();
+        buildMaxHeap(); // it does heapify down on all the parent nodes 
+        // once we make a valid heap out of the non sorted array ,now we will store that in an array
         int *temp = new int[maxHeapCapacity];
         for (int i=0; i<maxHeapSize; i++)
             temp[i] = HeapArray[i];

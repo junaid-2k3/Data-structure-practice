@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 struct Node{
@@ -57,25 +58,25 @@ class Avl{
         if(IsNodeUnbalanced){
         //LL case of ratation (single rotation on the right side)
         if(balance>1 && balanceFactor(root->left)>=0){// or value<root->left->data
-            // return rotateRight();
+            return rotateRight(root);
         }
         // LR case (double rotation ,first on child on right then left on the unbalanced node )
         if(balance>1 && balanceFactor(root->left)<0 )// or value >root->left->data}
-            //root->left=rotateRight(root->left);
-            //return rotateLeft(root);
+            root->left=rotateRight(root->left);
+            return rotateLeft(root);
         //RR case (single rotation on the unbalanced node)
         if(balance<-1 && balanceFactor(root->right)<=0){ // value >root->right->data
-            //return rotateLeft(root);
+            return rotateLeft(root);
         }
         //RL case (double rotation ,chile rotates to the right and unbalanced node to the left)
         if(balance<=-2 && balanceFactor(root->right)>0){ // or value<root->right-data
-            // root->right=rotateRight(root->right);
-            // return rotateLeft(root);
+            root->right=rotateRight(root->right);
+            return rotateLeft(root);
         }}
         else{
             return root;} // if node is balanced then simply return the node 
     }
-
+        // private helper funciton for insert
     Node* insert(Node* root ,bool& duplicate ,int value ){// implementation of insert function
             if(!root)
             return new Node(value);
@@ -92,26 +93,68 @@ class Avl{
         root=BalanceNode(root);
         return root;
     }
-    
-    
-    //
-    public:
+    void inorder(Node* root){
+    if(!root) return;
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
+}
+void displayTreeStructure(Node* node, int space = 0, int indent = 6) {
+    if (node == nullptr)
+        return;
+
+    space += indent;
+
+    // Process right child first
+    displayTreeStructure(node->right, space);
+
+    // Print current node after space
+    cout << setw(space) << node->data << "(h=" << node->height << ")" << endl;
+
+    // Process left child
+    displayTreeStructure(node->left, space);
+}
+
+
+    public:///////////////////////////////////////////////////////////////////////////////////////////////////////////
     Avl():root(nullptr),value(0){} // constructor for initialization of root 
 // insertion in avl tree 
-void insert(Node* root ,int val){ // this is the public wrapper for the function 
+void insert(int val){ // this is the public wrapper for the function 
     bool duplicate=false;
     root=insert(root,duplicate,val);
-    if(!duplicate){
+    if(duplicate){
         cout<<"duplicate element ::::"<<endl;
     }else{
         cout<<"element inserted "<<endl;
     }
 }
 
+void displayInorder(){
+    cout << "Inorder traversal: ";
+    inorder(root);
+    cout << endl;
+}
+
+void treedisplay(){
+    displayTreeStructure(root);
+}
+
 
 
 };
-int main(){
+int main() {
+    Avl tree;
 
-return 0;
+    tree.insert(10);
+    tree.insert(20);
+    tree.insert(30); // This should trigger a rotation (Right-Right case)
+    tree.insert(25); // This may trigger RL rotation
+    tree.insert(5);  // Left side
+    tree.insert(15);
+    tree.insert(20); // Duplicate test
+    tree.displayInorder();
+    tree.treedisplay();
+
+
+    return 0;
 }

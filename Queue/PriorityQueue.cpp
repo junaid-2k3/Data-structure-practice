@@ -17,23 +17,43 @@ class PrioQueue {
         while(front)
         dequeue();
     }
-
-    void enqueue(int value,int priority){
-        Node* newNode=new Node(value,priority);
-        if(front==nullptr || priority <front->priority){
+    bool isEmpty(){
+        return front? false:true;   // if front is not null it will return true 
+    }
+    void enqueue(int value,int priority ){
+        Node* newNode=new Node(value ,priority);
+        if(front==nullptr || priority<front->priority){
             newNode->next=front;
             front=newNode;
-        }else {
-            Node* curr=front;
-            while(curr->next!=nullptr && curr->next->priority<=priority){
-               curr=curr->next;
+        }else{
+            Node* trNode=front;
+            while(trNode->next!=nullptr && priority>=trNode->priority){
+               trNode=trNode->next;
             }
-            newNode->next=curr->next;
-            curr->next=newNode;
-            cout<<"inserted value "<<newNode->data <<"at priority :"<<newNode->priority<<endl;
+            newNode->next=trNode->next;
+            trNode->next=newNode;
         }
-
+        cout<<"enqueued"<<endl;
     }
+  // dequeue funciton will always pop the minimum element because the elements are 
+  //inserted on the base of priority 
+    // void enqueue(int value,int priority){
+    //     Node* newNode=new Node(value,priority);
+    //     if(front==nullptr || priority <front->priority){
+    //         newNode->next=front;
+    //         front=newNode;
+    //     }else {
+    //         Node* curr=front;
+    //         while(curr->next!=nullptr && curr->next->priority<=priority){
+    //            curr=curr->next;
+    //         }
+    //         newNode->next=curr->next;
+    //         curr->next=newNode;
+    //         cout<<"inserted value "<<newNode->data <<"at priority :"<<newNode->priority<<endl;
+    //     }
+    // }
+    
+
     void dequeue(){
         if(front==nullptr){
             cout<<"priority queue is empty";

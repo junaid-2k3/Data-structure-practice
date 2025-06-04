@@ -29,7 +29,7 @@ private:
         return root;
     }
 
-    Node* search(Node* root, int target) {
+    Node* search(Node* root, int target) { // binary search principle
         if (root == nullptr || root->data == target) return root;
         
         if (target < root->data)

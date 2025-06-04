@@ -14,7 +14,7 @@ class stack
 public:
     Node *top;
     stack() : top(nullptr) {}
-    void push(int val)
+    void push(int val)  // insert funxtion 
     {
         Node *newNode = new Node(val);
         if (top == nullptr)
@@ -22,7 +22,7 @@ public:
             top = newNode;
             return;
         }
-        newNode = top;
+        newNode->next = top;
         top = newNode;
     }
     void Pop()

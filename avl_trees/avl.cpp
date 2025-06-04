@@ -22,19 +22,32 @@ class AVL{
 private: // private section will have the core implementation of the funcitons and while we will call those function in the public wrappers defined in public sections
     Node *root; int value; // value for insertion and deletion etc
     //Inserting node in an AVL TREE
-    Node* insertNode(Node *node, int key,bool& duplicate){ // key=value of the node(node )
-    if (!node) return new Node(key);
-    if ( key < node->key )
-        node->left = insertNode(node->left,key,duplicate);
-    else if ( key > node->key )
-        node->right = insertNode(node->right,key,duplicate);
-        else{
-            duplicate = true;
-            return node;
-        }
-    node = balanceTree(node);
-    return node;
+    Node* insertNode(Node *node, int key, bool& duplicate) {
+    // If current node is null, insert the new node here
+    if (!node)
+        return new Node(key);  // Base case: found position, create new node
+
+    // If key is less than current node's key, go left
+    if (key < node->key)
+        node->left = insertNode(node->left, key, duplicate);
+
+    // If key is greater than current node's key, go right
+    else if (key > node->key)
+        node->right = insertNode(node->right, key, duplicate);
+
+    // If key already exists, mark duplicate and return current node
+    else {
+        duplicate = true;  // Mark duplicate
+        return node;       // Do not insert anything
     }
+
+    // After insertion, balance the tree 
+    node = balanceTree(node);
+
+    // Return the (possibly balanced) subtree root
+    return node;
+}
+
 // perform right rotation.
 Node* rotateRight(Node *unbalancedNode){
     Node* elevatedBranchRoot = unbalancedNode->left; // elevate left branch;
@@ -104,7 +117,7 @@ Node* balanceTree(Node* unbalancedNode){
         // return the unbalanced node address after rotations.
         if (isNodeUnbalanced){
             //CASE LL
-            if ( (balance > 1) && ( getBalance(unbalancedNode->left) >=0 ) ) // left sub-tree is heavier
+            if ( (balance > 1) && ( getBalance(unbalancedNode->left) >=0 ) ) // or value<root->left->data // left sub-tree is heavier
                 return rotateRight(unbalancedNode);
             //CASE LR
             if ( (balance > 1) && ( getBalance(unbalancedNode->left) < 0 ) ){
@@ -153,7 +166,7 @@ Node* findRightChild(Node* node){
     return node ? node->right : node;
 }
 // search node by a specific (given) value
-Node* findValue(Node *node,int key){
+Node* findValue(Node *node,int key){  // search function
     if (!node) return node;
     if ( node->key == key) return node;
     if ( key < node->key )

@@ -1,3 +1,4 @@
+// queue using linked list 
 #include <iostream> // queue follows last in last out . LILO
 using namespace std;// or First in first out
 

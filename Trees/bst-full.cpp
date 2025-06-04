@@ -104,7 +104,7 @@ private:
         preorderHelper(root->right, result);
     }
     
-    void postorderHelper(Node* root, vector<int>& result) {
+    void postorderHelper(Node* root, vector<int>& result) { // saving the result in a vector 
         if (root == nullptr) return;
         postorderHelper(root->left, result);
         postorderHelper(root->right, result);
@@ -189,17 +189,18 @@ private:
     }
     
     // 5. Range Queries
+   // 1) print values of all the nodes in the range 
     void printRangeHelper(Node* root, int L, int R, vector<int>& result) {
         if (root == nullptr) return;
         
-        if (root->data > L)
-            printRangeHelper(root->left, L, R, result);
+        if (root->data > L) // checks if the root is in the range from the lower limit
+            printRangeHelper(root->left, L, R, result);//recursivley call the laft ,untill left becomes smaller than k1(lower limit)
         
-        if (root->data >= L && root->data <= R)
-            result.push_back(root->data);
+        if (root->data >= L && root->data <= R) // check range
+            result.push_back(root->data); // print the value if the node is in range 
         
-        if (root->data < R)
-            printRangeHelper(root->right, L, R, result);
+        if (root->data < R) // check for range from the higher limit 
+            printRangeHelper(root->right, L, R, result); // untill right is greater than the limit 
     }
     
     int countNodesInRangeHelper(Node* root, int L, int R) {
@@ -216,10 +217,10 @@ private:
     }
     
     // 6. Modifications
-    void bstToDllHelper(Node* root, Node*& prev, Node*& head) {
+    void bstToDllHelper(Node* root, Node*& prev, Node*& head) { // conversion of bst to doubly linked list 
         if (root == nullptr) return;
-        
-        bstToDllHelper(root->left, prev, head);
+        // inorder conversion of bst into boubly linked list 
+        bstToDllHelper(root->left, prev, head);  
         
         if (prev == nullptr) {
             head = root;
@@ -254,21 +255,29 @@ private:
     
     // 7. Successor and Predecessor
     Node* inorderSuccessor(Node* root, Node* p) {
-        if (root == nullptr) return nullptr;
-        
-        Node* successor = nullptr;
-        
-        while (root != nullptr) {
-            if (p->data < root->data) {
-                successor = root;
-                root = root->left;
-            } else {
-                root = root->right;
-            }
+    // If the tree is empty, there's no successor.
+    if (root == nullptr) return nullptr;
+
+    Node* successor = nullptr;  // This will store the potential inorder successor.
+
+    // Traverse the tree starting from the root.
+    while (root != nullptr) {
+        if (p->data < root->data) {
+            // If p's value is less than root's, this root can be a successor.
+            // But there might be a smaller successor in the left subtree.
+            successor = root;
+            root = root->left;
+        } else {
+            // If p's value is greater than or equal to root's,
+            // successor must be in the right subtree.
+            root = root->right;
         }
-        
-        return successor;
     }
+
+    // When loop ends, 'successor' points to the inorder successor (if exists).
+    return successor;
+}
+
     
     Node* inorderPredecessor(Node* root, Node* p) {
         if (root == nullptr) return nullptr;

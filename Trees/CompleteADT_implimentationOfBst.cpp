@@ -91,7 +91,7 @@ private:
             cout << root->data << " ";
         }
     }
-    void destroyTree(Node* root) {
+    void destroyTree(Node* root) {// kind of a post order deletoion ;
         if (root != nullptr) {
             destroyTree(root->left);
             destroyTree(root->right);
@@ -131,6 +131,7 @@ private:
     int rightHeight = findHeight(node->right);
     return 1 + ((leftHeight > rightHeight) ? leftHeight : rightHeight);
     }
+
     int NodeDepth(Node* root, int key, int depth = 0) {
     if (root == nullptr) return -1; // Key not found
     if (root->data == key) return depth;
@@ -139,15 +140,17 @@ private:
     else
         return NodeDepth(root->right, key, depth + 1);
    }
-   int countNodesAtLevel(Node* node, int level) {
+
+   int countNodesAtLevel(Node* node, int level) { //////////////////////////////////////?????
     if (node == nullptr)
         return 0;
-    if (level == 0)
+    if (level == 0) // at level zero their is only one node and that is the root node
         return 1;
     return countNodesAtLevel(node->left, level - 1) +
            countNodesAtLevel(node->right, level - 1);
     }
-    Node* findParent(Node* node, int value) {
+
+    Node* findParent(Node* node, int value) {  ////////////////////////////////////??????
     if (node == nullptr || node->data == value)
         return nullptr;
 

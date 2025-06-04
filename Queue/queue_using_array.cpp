@@ -1,4 +1,5 @@
-// creating queue using array 
+// queue can be implemented using both array and linked list 
+// creating queue(circular) using array 
 #include <iostream>
 #include <vector>
 using namespace std;
